@@ -1,0 +1,23 @@
+search:
+	default:
+		in: %appDir%
+		classes:
+			- *Factory
+			- *Facade
+			- *Service
+
+
+services:
+	- App\Router\RouterFactory::createRouter
+#	- App\Model\User\User
+	- App\Model\User\UserService
+
+	mail.mailer: Nette\Mail\SendmailMailer
+
+	# PostgreSQL connection
+
+#	  dsn: "pgsql:host=127.0.0.1;dbname=security;options='--search_path=security'"
+#	  username: 'postgres'
+#	  password: 'mandrake'
+#	  options:
+#	    driver: pdo_pgsql

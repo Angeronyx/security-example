@@ -1,0 +1,25 @@
+parameters:
+
+
+application:
+	# Presenter to class name mapping pattern
+	mapping: App\Presentation\*\**Presenter
+
+session:
+	autoStart: true
+	expiration: 14 days
+
+
+di:
+	export:
+		parameters: no
+		tags: no
+
+extensions:
+    nextras.dbal: Nextras\Dbal\Bridges\NetteDI\DbalExtension
+    nextras.orm: Nextras\Orm\Bridges\NetteDI\OrmExtension
+#    nextras.migrations: Nextras\Migrations\Bridges\NetteDI\MigrationsExtension
+
+nextras.orm:
+    model: App\Model\Orm
+    connection: @Nextras\Dbal\Connection
