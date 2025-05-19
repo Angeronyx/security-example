@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\User;
 
-class UserService
+use App\Model\AEntityService;
+
+class UsersService extends AEntityService
 {
     /**
      * @var UsersRepository
