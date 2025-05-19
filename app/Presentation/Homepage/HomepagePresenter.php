@@ -6,18 +6,20 @@ namespace App\Presentation\Homepage;
 
 use Nette\DI\Attributes\Inject;
 use App\Model\Orm;
-use App\Presentation\BasePresenter;
+use App\Presentation\ABasePresenter;
 use Nette;
 
-final class HomepagePresenter extends BasePresenter
+final class HomepagePresenter extends ABasePresenter
 {
-    #[Inject]
-    public Orm $orm;
 
 
-    public function __construct(Orm $orm) {
+
+    public function __construct() {
         parent::__construct();
-        $this->orm = $orm;
+    }
+
+    public function actionDefault() {
+
         bdump($this->orm->users->findBy(['id' => 1])->fetch());
     }
 }

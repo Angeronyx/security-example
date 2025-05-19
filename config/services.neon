@@ -9,15 +9,11 @@ search:
 
 services:
 	- App\Router\RouterFactory::createRouter
-#	- App\Model\User\User
-	- App\Model\User\UserService
-
 	mail.mailer: Nette\Mail\SendmailMailer
 
-	# PostgreSQL connection
+	#CoreServices
+	- App\Core\Mail\MailService
 
-#	  dsn: "pgsql:host=127.0.0.1;dbname=security;options='--search_path=security'"
-#	  username: 'postgres'
-#	  password: 'mandrake'
-#	  options:
-#	    driver: pdo_pgsql
+	#EntityServices
+	- App\Model\User\UsersService
+	- App\Model\RegisteredUser\RegisteredUsersService
