@@ -6,10 +6,9 @@ namespace App\Model\RegisteredUser;
 
 use App\Model\AEntityService;
 use App\Model\Orm;
-use Nette\DI\Attributes\Inject;
-use Nette\Security\Authenticator;
-use Nette\Security\Authorizator;
+use Exception;
 use Nette\Security\Passwords;
+use Nette\Utils\DateTime;
 use Ramsey\Uuid\Uuid;
 
 class RegisteredUsersService
@@ -29,11 +28,43 @@ class RegisteredUsersService
         $registeredUser->email = $email;
         $passwords = new Passwords(PASSWORD_ARGON2ID, ['cost' => 11]);
         $registeredUser->passwordHash = $passwords->hash($password);
-        bdump($registeredUser->passwordHash);
+
         $registeredUser->activationToken = Uuid::uuid4()->toString();
 
-        //$this->orm->persistAndFlush($registeredUser);
+        $this->orm->persistAndFlush($registeredUser);
 
+        return $registeredUser;
+    }
+
+    /**
+     * @param string $activationToken
+     * @return RegisteredUser
+     */
+    public function getRegisteredUserByActivationToken(string $activationToken): RegisteredUser
+    {
+        return $this->orm->registeredUsers->findBy(['activationToken' => $activationToken])->fetch();
+    }
+
+    public function persist(RegisteredUser $registeredUser): void
+    {
+        $this->orm->registeredUsers->persistAndFlush($registeredUser);
+    }
+
+    /**
+     */
+    public function resetActivation(RegisteredUser $registeredUser): RegisteredUser
+    {
+        //TODO retype the exception
+        try
+        {
+            $registeredUser->setRegistrationStatusId(1)
+                ->setActivationExpires(DateTime::from('+7 days'));
+        }
+        catch (Exception $e)
+        {
+            //TODO throw some kind of dateTimeUtils exception
+        }
+        $this->persist($registeredUser);
         return $registeredUser;
     }
 }

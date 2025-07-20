@@ -17,3 +17,4 @@ services:
 	#EntityServices
 	- App\Model\User\UsersService
 	- App\Model\RegisteredUser\RegisteredUsersService
+	- App\Presentation\Registration\ActivationService
