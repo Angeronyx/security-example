@@ -1,0 +1,22 @@
+search:
+	default:
+		in: %appDir%
+		classes:
+			- *Factory
+			- *Facade
+			- *Service
+
+
+services:
+	- App\Router\RouterFactory::createRouter
+	mail.mailer: Nette\Mail\SendmailMailer
+	latte.engine:
+		type: Latte\Engine
+		autowired: true
+	#CoreServices
+	- App\Core\Mail\MailService
+
+	#EntityServices
+	- App\Model\User\UsersService
+	- App\Model\RegisteredUser\RegisteredUsersService
+	- App\Presentation\Registration\ActivationApi\ActivationService

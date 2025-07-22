@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta property="og:title" content="">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="og-image.jpg" />
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+{php $randomNumber = rand(1, 262144) }
+<link rel="stylesheet" href="css/style.css?stamp={$randomNumber}" type="text/css">
+
+
+
+    <script>
+      </script>
+
+  <script src="js/jquery.min.js">
+  </script>
+  <script src="js/zenscroll.js">
+  </script>
+
+	<title>{ifset title}{include title|stripHtml} | {/ifset}</title>
+</head>
+
+<body>
+	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+	{include content}
+
+
+
+	{block scripts}
+	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+	{/block}
+</body>
+</html>
