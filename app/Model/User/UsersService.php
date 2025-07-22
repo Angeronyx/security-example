@@ -30,7 +30,7 @@ class UsersService extends AEntityService
 
     public function findByEmail(string $email): ?User
     {
-        return $this->orm->registeredUsers->findBy(['email' => $email])->fetch();
+        return $this->orm->users->findBy(['email' => $email])->fetch();
     }
 
 
