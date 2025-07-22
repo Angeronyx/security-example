@@ -45,13 +45,17 @@ class MailService
      * @param IEmail $email
      * @return Message
      */
-    public function createMessage(IEmail $email): Nette\Mail\Message
+    protected function createMessage(IEmail $email): Nette\Mail\Message
     {
         $message = new Message();
+        $ref = new \ReflectionClass($email);
+        $path = $ref->getFileName();
+        $sub = substr($path, 0, strrpos($path, '\\'));
+
         $message->setFrom($email->getSender())
             ->addTo($email->getRecipient())
             ->setSubject($email->getSubject())
-            ->setHtmlBody($this->engine->renderToString($email->getTemplate(), ['data' => $email->getData()]));
+            ->setHtmlBody($this->engine->renderToString($sub . $email->getTemplate(), ['data' => $email->getData()]));
         return $message;
     }
 }

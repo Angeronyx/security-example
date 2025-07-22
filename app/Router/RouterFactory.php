@@ -15,6 +15,7 @@ final class RouterFactory
 	public static function createRouter(): RouteList
 	{
 		$router = new RouteList;
+        $router->addRoute('activation', 'Registration:ActivationApi:default');
         $router->addRoute('Login', 'Login:default');
         $router->addRoute('login', 'Login:default');
         $router->addRoute('Registration', 'Registration:default');

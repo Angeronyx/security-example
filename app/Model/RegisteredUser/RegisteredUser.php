@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\RegisteredUser;
 
-use Nette\Utils\DateTime;
+use Nette\Database\DateTime;
 use Nextras\Orm\Entity\Entity;
 
 
@@ -14,7 +14,7 @@ use Nextras\Orm\Entity\Entity;
  * @property string $passwordHash
  * @property string $activationToken
  * @property DateTime $activationExpires
- * @property int $registrationStatusId {default 1}
+ * @property int $registrationStatus {default 1}
  */
 class RegisteredUser extends Entity
 {
@@ -67,14 +67,14 @@ class RegisteredUser extends Entity
         return $this;
     }
 
-    public function getRegistrationStatusId(): int
+    public function getRegistrationStatus(): int
     {
-        return $this->registrationStatusId;
+        return $this->registrationStatus;
     }
 
-    public function setRegistrationStatusId(int $registrationStatusId): self
+    public function setRegistrationStatus(int $registrationStatusId): self
     {
-        $this->registrationStatusId = $registrationStatusId;
+        $this->registrationStatus = $registrationStatusId;
         return $this;
     }
 }

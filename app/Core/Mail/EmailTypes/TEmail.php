@@ -10,7 +10,7 @@ trait TEmail
 
     protected string $subject;
 
-    protected string $template = __DIR__ . 'default.latte';
+
 
 
     public function getData(): IEmailData

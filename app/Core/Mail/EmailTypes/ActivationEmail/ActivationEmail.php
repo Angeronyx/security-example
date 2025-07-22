@@ -15,9 +15,9 @@ class ActivationEmail extends AEmail
 
     protected string $subject = 'Activation email';
 
-    public function __construct($recipient, ActivationEmailData $data) {
+    public function __construct(string $recipient, ActivationEmailData $data)
+    {
         $this->setRecipient($recipient);
         $this->setData($data);
     }
-
 }

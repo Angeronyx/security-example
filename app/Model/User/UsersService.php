@@ -42,6 +42,7 @@ class UsersService extends AEntityService
 
         $this->orm->persistAndFlush($user);
 
+        bdump($user);
         return $user;
     }
 }

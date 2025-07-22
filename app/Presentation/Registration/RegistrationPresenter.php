@@ -33,6 +33,7 @@ final class RegistrationPresenter extends ABasePresenter
         $form->addSubmit('send', 'SEND');
         $form->onSuccess[] = function (Form $form, $data): void {
             //TODO validate inputs
+            bdump($data);
             $this->registrationService->registerUser($data['email'], $data['password']);
             //TODO show message waiting for activation through mail
         };

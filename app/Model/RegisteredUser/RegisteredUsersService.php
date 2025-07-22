@@ -30,7 +30,8 @@ class RegisteredUsersService
         $registeredUser->passwordHash = $passwords->hash($password);
 
         $registeredUser->activationToken = Uuid::uuid4()->toString();
-
+        $registeredUser->registrationStatus = 1;
+        $registeredUser->activationExpires = DateTime::from('+7 days');
         $this->orm->persistAndFlush($registeredUser);
 
         return $registeredUser;
@@ -57,7 +58,7 @@ class RegisteredUsersService
         //TODO retype the exception
         try
         {
-            $registeredUser->setRegistrationStatusId(1)
+            $registeredUser->setRegistrationStatus(1)
                 ->setActivationExpires(DateTime::from('+7 days'));
         }
         catch (Exception $e)

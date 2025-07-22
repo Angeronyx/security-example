@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Presentation\Registration;
+namespace App\Presentation\Registration\ActivationApi;
 
 use App\Presentation\ABaseApi;
+use Ramsey\Uuid\Uuid;
 
-class ActivationApi extends ABaseApi
+class ActivationApiPresenter extends ABaseApi
 {
 
     /**
@@ -22,9 +23,18 @@ class ActivationApi extends ABaseApi
         $this->activationService = $activationService;
     }
 
-    public function actionDefault() {
+    public function actionDefault()
+    {
+        $token = $this->getParameter('token');
+
+        if(!Uuid::isValid($token))
+        {
+            //TODO retype exception
+            throw new \Exception('invalid token');
+        }
+
         //TODO try catch around the activation
-        $this->activationService->activateRegisteredUser();
+        $this->activationService->activateRegisteredUser($token);
     }
 
     public function actionReset() {

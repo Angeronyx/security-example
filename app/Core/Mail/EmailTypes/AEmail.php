@@ -12,6 +12,8 @@ abstract class AEmail implements IEmail
 
     protected string $sender = 'no-reply';
 
+    protected string $template = '\default.latte';
+
     public function getTemplate(): string
     {
         return $this->template;
@@ -29,7 +31,7 @@ abstract class AEmail implements IEmail
 
     public function setSubject(string $subject): void
     {
-        // TODO: Implement setSubject() method.
+        $this->subject = $subject;
     }
 
     public function getRecipient(): string
@@ -39,7 +41,7 @@ abstract class AEmail implements IEmail
 
     public function setRecipient(string $recipient): void
     {
-        // TODO: Implement setRecipient() method.
+        $this->recipient = $recipient;
     }
 
     public function getSender(): string
