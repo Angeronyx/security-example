@@ -26,6 +26,7 @@ class RegisteredUsersService
     {
         $registeredUser = new RegisteredUser();
         $registeredUser->email = $email;
+        //TODO encapsulale usages in security class
         $passwords = new Passwords(PASSWORD_ARGON2ID, ['cost' => 11]);
         $registeredUser->passwordHash = $passwords->hash($password);
 
