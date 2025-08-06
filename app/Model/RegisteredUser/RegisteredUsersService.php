@@ -13,16 +13,13 @@ use Ramsey\Uuid\Uuid;
 
 class RegisteredUsersService
 {
-    private Orm $orm;
-
     /**
      * @param Orm $orm
      */
-    public function __construct(Orm $orm) {
-        $this->orm = $orm;
+    public function __construct(private Orm $orm) {
     }
 
-    public function createRegisteredUser(string $email, string $password): RegisteredUser
+    public function createRegisteredUser(string $email, #[\SensitiveParameter] string $password): RegisteredUser
     {
         $registeredUser = new RegisteredUser();
         $registeredUser->email = $email;

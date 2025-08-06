@@ -34,6 +34,7 @@
     "nextras/migrations": "^3.4",
     "nextras/orm": "^5.0",
     "nextras/secured-links": "^1.10",
-    "ramsey/uuid": "^4.7"
+    "ramsey/uuid": "^4.7",
+    "predis/predis": "^3.1"
   }
 }

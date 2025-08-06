@@ -12,34 +12,34 @@ class LoginPresenter extends ABasePresenter
 {
 
     /**
-     * @var LoginService
-     */
-    private LoginService $loginService;
-
-    /**
      * @param LoginService $loginService
      */
-    public function __construct(LoginService $loginService)
+    public function __construct(private LoginService $loginService)
     {
         parent::__construct();
-        $this->loginService = $loginService;
     }
 
     public function createComponentLoginForm(): Form
     {
         $form = new Form();
         $form->addProtection();
-        $form->addText('email', 'Email:')
-            //->addRule($form::Email, 'Please enter a valid email address.')
+        $form->addText('identifier', 'Email:')
+            //TODO uncomment->addRule($form::Email, 'Please enter a valid email address.')
             ->setRequired('Please enter a valid email address.');
         $form->addText('password', 'Password:')
             ->setRequired('Please enter a valid password.');
         $form->addSubmit('send', 'LOGIN');
         $form->onSuccess[] = function (Form $form, $data): void {
-            //TODO validate inputs
+            $identifier = strtolower(
+                trim($data['identifier'])
+            );//filter_var(trim($data['identifier']), FILTER_SANITIZE_EMAIL);
+            try {
+                $identity = $this->loginService->login($identifier, $data['password']);
 
-            $this->loginService->login($data['email'], $data['password']);
-
+                $this->getUser()->login($identity);
+            } catch (\Exception $e) {
+                $this->error('', 401);
+            }
         };
         return $form;
     }

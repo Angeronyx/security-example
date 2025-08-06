@@ -9,14 +9,11 @@ use App\Model\RegisteredUser\RegisteredUser;
 
 class UsersService extends AEntityService
 {
-    private Orm $orm;
-
     /**
      * @param Orm $orm
      */
-    public function __construct(Orm $orm)
+    public function __construct(private Orm $orm)
     {
-        $this->orm = $orm;
     }
 
     /**
@@ -33,6 +30,21 @@ class UsersService extends AEntityService
         return $this->orm->users->findBy(['email' => $email])->fetch();
     }
 
+    public function findByName(string $username): ?User
+    {
+        return $this->orm->users->findBy(['name' => $username])->fetch();
+    }
+
+    public function findByIdentifier(string $identifier): ?User
+    {
+        $identifier = trim(strtolower($identifier));
+
+        if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+            return $this->findByEmail($identifier);
+        }
+
+        return $this->findByName($identifier);
+    }
 
     public function createUserByRegisteredUser(RegisteredUser $registeredUser): User
     {

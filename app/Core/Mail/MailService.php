@@ -12,24 +12,13 @@ use Nette\Mail\Message;
 
 class MailService
 {
-    /**
-     * @var Nette\Mail\Mailer
-     */
-    private Nette\Mail\Mailer $mailer;
-
-    /**
-     * @var Engine
-     */
-    private Engine $engine;
 
     /**
      * @param Mailer $mailer
      * @param Engine $engine
      */
-    public function __construct(Nette\Mail\Mailer $mailer, Engine $engine)
+    public function __construct(private Nette\Mail\Mailer $mailer, private Engine $engine)
     {
-        $this->mailer = $mailer;
-        $this->engine = $engine;
     }
 
     /**

@@ -20,6 +20,8 @@ abstract class ABasePresenter extends Presenter
         $this->orm = $orm;
     }
 
+
+
     /**
      * @return void
      * @throws BadRequestException
