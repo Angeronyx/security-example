@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Model\User;
 
+use App\Model\Role\Role;
 use Nextras\Orm\Entity\Entity;
+use Nextras\Orm\Relationships\ManyHasMany;
+
 
 /**
  * @property int $id {primary}
@@ -14,6 +17,19 @@ use Nextras\Orm\Entity\Entity;
  */
 class User extends Entity
 {
+
+    /**
+     * @var ManyHasMany<Role>
+     * @orm\ManyHasMany(targetEntity=Role::class)
+     * @orm\JoinTable(name="users_to_roles")
+     */
+    public ManyHasMany $roles;
+
+    public function getRoles(): ManyHasMany
+    {
+        return $this->roles;
+    }
+
     public function getId(): int
     {
         return $this->id;

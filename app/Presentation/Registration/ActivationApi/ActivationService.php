@@ -5,25 +5,18 @@ declare(strict_types=1);
 namespace App\Presentation\Registration\ActivationApi;
 
 use App\Model\RegisteredUser\RegisteredUsersService;
+use App\Model\RegistrationStatus\RegistrationStatus;
 use App\Model\User\UsersService;
 use Nette\Utils\DateTime;
 
 class ActivationService
 {
     /**
-     * @var RegisteredUsersService
-     */
-    private RegisteredUsersService $registeredUsersService;
-    private UsersService $usersService;
-
-    /**
      * @param RegisteredUsersService $registeredUsersService
      * @param UsersService $usersService
      */
-    public function __construct(RegisteredUsersService $registeredUsersService, UsersService $usersService)
+    public function __construct(private RegisteredUsersService $registeredUsersService,private UsersService $usersService)
     {
-        $this->registeredUsersService = $registeredUsersService;
-        $this->usersService = $usersService;
     }
 
 
@@ -34,19 +27,19 @@ class ActivationService
     {
         $registeredUser = $this->registeredUsersService->getRegisteredUserByActivationToken($activationToken);
         //TODO check for activationToken & expiration & registration status = pending
-        bdump($registeredUser);
-        if($registeredUser->getRegistrationStatus() === 2 || $registeredUser->getRegistrationStatus() === 3)
+
+        if($registeredUser->getRegistrationStatus() === RegistrationStatus::STATUS_COMPLETED || $registeredUser->getRegistrationStatus() === RegistrationStatus::STATUS_DELETED)
         {
-            //Throw
+            //TODO Throw
         }
 
-        if($registeredUser->getRegistrationStatus() === 1 && $registeredUser->getActivationExpires() > new DateTime())
+        if($registeredUser->getRegistrationStatus() === RegistrationStatus::STATUS_PENDING && $registeredUser->getActivationExpires() > new DateTime())
         {
             //TODO put inside transaction
             try {
                 $user = $this->usersService->createUserByRegisteredUser($registeredUser);
-                bdump($user);
-                $registeredUser->setRegistrationStatus(2);
+
+                $registeredUser->setRegistrationStatus(RegistrationStatus::STATUS_COMPLETED);
                 $this->registeredUsersService->persist($registeredUser);
             }
             catch (\Exception $exception)
@@ -58,7 +51,7 @@ class ActivationService
             //TODO commit transaction
 
         }
-        elseif($registeredUser->getRegistrationStatus() === 4 || $registeredUser->getActivationExpires() < new DateTime())
+        elseif($registeredUser->getRegistrationStatus() === RegistrationStatus::STATUS_EXPIRED || $registeredUser->getActivationExpires() < new DateTime())
         {
             //TODO reset status, reset Expiration, resend email
 

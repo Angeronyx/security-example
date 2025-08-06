@@ -9,16 +9,9 @@ use Nette\Application\UI\Form;
 
 final class RegistrationPresenter extends ABasePresenter
 {
-
-    /**
-     * @var RegistrationService
-     */
-    private RegistrationService $registrationService;
-
-    public function __construct(RegistrationService $registrationService)
+    public function __construct(private RegistrationService $registrationService)
     {
         parent::__construct();
-        $this->registrationService = $registrationService;
     }
 
     public function createComponentRegistrationForm(): Form
@@ -33,8 +26,11 @@ final class RegistrationPresenter extends ABasePresenter
         $form->addSubmit('send', 'SEND');
         $form->onSuccess[] = function (Form $form, $data): void {
             //TODO validate inputs
-            bdump($data);
-            $this->registrationService->registerUser($data['email'], $data['password']);
+            $email = strtolower(trim($data['email']));
+
+            //filter_var(trim($data['identifier']), FILTER_SANITIZE_EMAIL);
+
+            $this->registrationService->registerUser($email, $data['password']);
             //TODO show message waiting for activation through mail
         };
         return $form;

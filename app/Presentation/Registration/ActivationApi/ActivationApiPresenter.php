@@ -10,17 +10,13 @@ use Ramsey\Uuid\Uuid;
 class ActivationApiPresenter extends ABaseApi
 {
 
-    /**
-     * @var ActivationService
-     */
-    private ActivationService $activationService;
 
     /**
      * @param ActivationService $activationService
      */
-    public function __construct(ActivationService $activationService)
+    public function __construct(private ActivationService $activationService)
     {
-        $this->activationService = $activationService;
+        parent::__construct();
     }
 
     public function actionDefault()
